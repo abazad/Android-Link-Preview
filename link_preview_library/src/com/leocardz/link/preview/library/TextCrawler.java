@@ -15,6 +15,9 @@ import android.os.AsyncTask;
 
 public class TextCrawler {
 
+	public static final int ALL = -1;
+	public static final int NONE = -2;
+
 	private final String HTTP_PROTOCOL = "http://";
 	private final String HTTPS_PROTOCOL = "https://";
 
@@ -25,7 +28,13 @@ public class TextCrawler {
 
 	public void makePreview(LinkPreviewCallback callback, String url) {
 		this.callback = callback;
-		new GetCode().execute(url);
+		new GetCode(ALL).execute(url);
+	}
+
+	public void makePreview(LinkPreviewCallback callback, String url,
+			int imageQuantity) {
+		this.callback = callback;
+		new GetCode(imageQuantity).execute(url);
 	}
 
 	/** Get html code */
@@ -33,10 +42,6 @@ public class TextCrawler {
 
 		private SourceContent sourceContent = new SourceContent();
 		private int imageQuantity;
-
-		public GetCode() {
-			imageQuantity = -1;
-		}
 
 		public GetCode(int imageQuantity) {
 			this.imageQuantity = imageQuantity;
@@ -105,12 +110,17 @@ public class TextCrawler {
 					sourceContent.setDescription(sourceContent.getDescription()
 							.replaceAll(Regex.SCRIPT_PATTERN, ""));
 
-					if (!metaTags.get("image").equals(""))
-						sourceContent.getImages().add(metaTags.get("image"));
-					else {
-						sourceContent.setImages(getImages(
-								sourceContent.getHtmlCode(),
-								sourceContent.getFinalUrl(), imageQuantity));
+					if (imageQuantity != NONE) {
+						if (!metaTags.get("image").equals(""))
+							sourceContent.getImages()
+									.add(metaTags.get("image"));
+						else {
+							sourceContent
+									.setImages(getImages(
+											sourceContent.getHtmlCode(),
+											sourceContent.getFinalUrl(),
+											imageQuantity));
+						}
 					}
 
 					sourceContent.setSuccess(true);
@@ -210,7 +220,7 @@ public class TextCrawler {
 
 		}
 
-		if (imageQuantity != -1)
+		if (imageQuantity != ALL)
 			matches = matches.subList(0, imageQuantity);
 
 		return matches;

@@ -200,6 +200,7 @@ public class Main extends SherlockFragmentActivity {
 				urls = SearchUrls.matches(editText.getText().toString());
 				if (urls.size() > 0)
 					textCrawler.makePreview(callback, urls.get(0));
+				// , TextCrawler.NONE);
 				else
 					Toast.makeText(context, getString(R.string.no_urls),
 							Toast.LENGTH_LONG).show();
