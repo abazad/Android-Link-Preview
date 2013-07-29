@@ -5,7 +5,7 @@ This a version for Android of my web [Facebook Link Preview](http://lab.leocardz
 
 It makes a preview from an url, grabbing all informations. Such as title, relevant texts and images.
 
-For more information about this, please access [Android Link Preview](http://lab.leocardz.com/android-link-preview/ "Android Link Preview").
+For more information about this, please access [Android Link Preview](http://android.leocardz.com/android-link-preview/ "Android Link Preview").
 
 For a sample app, please install it from [Android Link Preview on Google Play](https://play.google.com/store/apps/details?id=com.leocardz.link.preview&feature=search_result "Android Link Preview on Google Play").
 
