@@ -5,6 +5,10 @@ This a version for Android of my web [Facebook Link Preview](http://lab.leocardz
 
 It makes a preview from an url, grabbing all informations. Such as title, relevant texts and images.
 
+For more information about this, please access [Android Link Preview](http://lab.leocardz.com/android-link-preview/ "Android Link Preview").
+
+For a sample app, please install it from [Android Link Preview on Google Play](https://play.google.com/store/apps/details?id=com.leocardz.link.preview&feature=search_result "Android Link Preview on Google Play").
+
 In this project, I have added some libs.
 
 Note 1 - Required Libs: [jsoup](http://jsoup.org/ "jsoup") is a smart lib to crawl the htlm code. [UrlImageViewHelper](https://github.com/koush/UrlImageViewHelper "UrlImageViewHelper") is an optimized lib for url images.
@@ -15,7 +19,7 @@ Note 2 - Not Required Libs: Two libs for a more concise and uniform layout, whic
 
 Contact
 =================================
-If you are using this lib, let me know contacting me at leo@leocardz.com then I add your app here in a list
+If you are using this lib, let me know contacting me at android@leocardz.com then I add your app here in a list
 
 
 License
