@@ -343,7 +343,7 @@ public class Main extends SherlockFragmentActivity {
 									titleTextView.setText(currentTitle);
 									titleTextView.setVisibility(View.VISIBLE);
 
-									hideSoftKeyboard();
+									hideSoftKeyboard(titleEditText);
 								}
 
 								return false;
@@ -381,7 +381,7 @@ public class Main extends SherlockFragmentActivity {
 									descriptionTextView
 											.setVisibility(View.VISIBLE);
 
-									hideSoftKeyboard();
+									hideSoftKeyboard(descriptionEditText);
 								}
 
 								return false;
@@ -554,6 +554,12 @@ public class Main extends SherlockFragmentActivity {
 		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
 		inputMethodManager.hideSoftInputFromWindow(getCurrentFocus()
 				.getWindowToken(), 0);
+	}
+
+	private void hideSoftKeyboard(EditText editText) {
+		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+		inputMethodManager
+				.hideSoftInputFromWindow(editText.getWindowToken(), 0);
 	}
 
 	/** Just a set of urls */
