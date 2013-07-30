@@ -27,8 +27,6 @@ import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
 import com.actionbarsherlock.app.SherlockFragmentActivity;
-import com.actionbarsherlock.view.Menu;
-import com.actionbarsherlock.view.MenuItem;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewCallback;
 import com.koushikdutta.urlimageviewhelper.UrlImageViewHelper;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
@@ -39,7 +37,7 @@ import com.leocardz.link.preview.library.TextCrawler;
 @SuppressWarnings("unused")
 public class Main extends SherlockFragmentActivity {
 
-	private EditText editText;
+	private EditText editText, editTextTitlePost, editTextDescriptionPost;
 	private Button submitButton, postButton, randomButton;
 
 	private ArrayList<String> urls;
@@ -68,6 +66,8 @@ public class Main extends SherlockFragmentActivity {
 		setContentView(R.layout.main);
 
 		editText = (EditText) findViewById(R.id.input);
+		editTextTitlePost = null;
+		editTextDescriptionPost = null;
 
 		/** --- From ShareVia Intent */
 		if (getIntent().getExtras() != null) {
@@ -314,6 +314,9 @@ public class Main extends SherlockFragmentActivity {
 				final Button forwardButton = (Button) thumbnailOptions
 						.findViewById(R.id.post_forward);
 
+				editTextTitlePost = titleEditText;
+				editTextDescriptionPost = descriptionEditText;
+
 				titleTextView.setOnClickListener(new OnClickListener() {
 
 					@Override
@@ -343,7 +346,7 @@ public class Main extends SherlockFragmentActivity {
 									titleTextView.setText(currentTitle);
 									titleTextView.setVisibility(View.VISIBLE);
 
-									hideSoftKeyboard(titleEditText);
+									hideSoftKeyboard();
 								}
 
 								return false;
@@ -381,7 +384,7 @@ public class Main extends SherlockFragmentActivity {
 									descriptionTextView
 											.setVisibility(View.VISIBLE);
 
-									hideSoftKeyboard(descriptionEditText);
+									hideSoftKeyboard();
 								}
 
 								return false;
@@ -551,9 +554,12 @@ public class Main extends SherlockFragmentActivity {
 
 	/** Hide keyboard */
 	private void hideSoftKeyboard() {
-		InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-		inputMethodManager.hideSoftInputFromWindow(getCurrentFocus()
-				.getWindowToken(), 0);
+		hideSoftKeyboard(editText);
+
+		if (editTextTitlePost != null)
+			hideSoftKeyboard(editTextTitlePost);
+		if (editTextDescriptionPost != null)
+			hideSoftKeyboard(editTextDescriptionPost);
 	}
 
 	private void hideSoftKeyboard(EditText editText) {
