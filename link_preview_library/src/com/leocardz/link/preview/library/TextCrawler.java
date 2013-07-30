@@ -71,7 +71,8 @@ public class TextCrawler {
 			sourceContent.setFinalUrl(sourceContent.getFinalUrl().replace(
 					HTTPS_PROTOCOL, HTTP_PROTOCOL));
 
-			if (isImage(sourceContent.getFinalUrl())) {
+			if (isImage(sourceContent.getFinalUrl())
+					&& !sourceContent.getFinalUrl().contains("dropbox")) {
 				sourceContent.setSuccess(true);
 
 				sourceContent.getImages().add(sourceContent.getFinalUrl());
