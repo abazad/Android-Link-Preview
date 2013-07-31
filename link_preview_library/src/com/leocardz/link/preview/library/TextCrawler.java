@@ -20,6 +20,7 @@ public class TextCrawler {
 
 	private final String HTTP_PROTOCOL = "http://";
 	private final String HTTPS_PROTOCOL = "https://";
+	private final String URL_REGEX = "^(https?)://?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].+)?$";
 
 	private LinkPreviewCallback callback;
 
@@ -66,67 +67,70 @@ public class TextCrawler {
 		@Override
 		protected Void doInBackground(String... params) {
 
-			sourceContent.setFinalUrl(unshortenUrl(params[0]));
+			sourceContent
+					.setFinalUrl(unshortenUrl(findFirstUrl(extendedTrim(params[0]))));
 
-			sourceContent.setFinalUrl(sourceContent.getFinalUrl().replace(
-					HTTPS_PROTOCOL, HTTP_PROTOCOL));
-
-			if (isImage(sourceContent.getFinalUrl())
-					&& !sourceContent.getFinalUrl().contains("dropbox")) {
-				sourceContent.setSuccess(true);
-
-				sourceContent.getImages().add(sourceContent.getFinalUrl());
-
-				sourceContent.setTitle("");
-				sourceContent.setDescription("");
-
-			} else {
-				try {
-					Document doc = Jsoup.connect(sourceContent.getFinalUrl())
-							.userAgent("Mozilla").get();
-
-					sourceContent.setHtmlCode(extendedTrim(doc.toString()));
-
-					HashMap<String, String> metaTags = getMetaTags(sourceContent
-							.getHtmlCode());
-
-					sourceContent.setMetaTags(metaTags);
-
-					sourceContent.setTitle(metaTags.get("title"));
-					sourceContent.setDescription(metaTags.get("description"));
-
-					if (sourceContent.getTitle().equals("")) {
-						String matchTitle = Regex.pregMatch(
-								sourceContent.getHtmlCode(),
-								Regex.TITLE_PATTERN, 2);
-
-						if (!matchTitle.equals(""))
-							sourceContent.setTitle(htmlDecode(matchTitle));
-					}
-
-					if (sourceContent.getDescription().equals(""))
-						sourceContent.setDescription(crawlCode(sourceContent
-								.getHtmlCode()));
-
-					sourceContent.setDescription(sourceContent.getDescription()
-							.replaceAll(Regex.SCRIPT_PATTERN, ""));
-
-					if (imageQuantity != NONE) {
-						if (!metaTags.get("image").equals(""))
-							sourceContent.getImages()
-									.add(metaTags.get("image"));
-						else {
-							sourceContent
-									.setImages(getImages(
-											sourceContent.getHtmlCode(),
-											sourceContent.getFinalUrl(),
-											imageQuantity));
-						}
-					}
-
+			if (!sourceContent.equals("")) {
+				if (isImage(sourceContent.getFinalUrl())
+						&& !sourceContent.getFinalUrl().contains("dropbox")) {
 					sourceContent.setSuccess(true);
-				} catch (Exception e) {
-					sourceContent.setSuccess(false);
+
+					sourceContent.getImages().add(sourceContent.getFinalUrl());
+
+					sourceContent.setTitle("");
+					sourceContent.setDescription("");
+
+				} else {
+					try {
+						Document doc = Jsoup
+								.connect(sourceContent.getFinalUrl())
+								.userAgent("Mozilla").get();
+
+						sourceContent.setHtmlCode(extendedTrim(doc.toString()));
+
+						HashMap<String, String> metaTags = getMetaTags(sourceContent
+								.getHtmlCode());
+
+						sourceContent.setMetaTags(metaTags);
+
+						sourceContent.setTitle(metaTags.get("title"));
+						sourceContent.setDescription(metaTags
+								.get("description"));
+
+						if (sourceContent.getTitle().equals("")) {
+							String matchTitle = Regex.pregMatch(
+									sourceContent.getHtmlCode(),
+									Regex.TITLE_PATTERN, 2);
+
+							if (!matchTitle.equals(""))
+								sourceContent.setTitle(htmlDecode(matchTitle));
+						}
+
+						if (sourceContent.getDescription().equals(""))
+							sourceContent
+									.setDescription(crawlCode(sourceContent
+											.getHtmlCode()));
+
+						sourceContent.setDescription(sourceContent
+								.getDescription().replaceAll(
+										Regex.SCRIPT_PATTERN, ""));
+
+						if (imageQuantity != NONE) {
+							if (!metaTags.get("image").equals(""))
+								sourceContent.getImages().add(
+										metaTags.get("image"));
+							else {
+								sourceContent.setImages(getImages(
+										sourceContent.getHtmlCode(),
+										sourceContent.getFinalUrl(),
+										imageQuantity));
+							}
+						}
+
+						sourceContent.setSuccess(true);
+					} catch (Exception e) {
+						sourceContent.setSuccess(false);
+					}
 				}
 			}
 
@@ -150,6 +154,21 @@ public class TextCrawler {
 			return false;
 		}
 
+	}
+
+	/** Find the first url */
+	private String findFirstUrl(String content) {
+		String url = "";
+		String[] pieces = content.split(" ");
+
+		for (String string : pieces) {
+			if (string.matches(URL_REGEX)) {
+				url = string;
+				break;
+			}
+		}
+
+		return url;
 	}
 
 	/** Gets content from a html tag */
