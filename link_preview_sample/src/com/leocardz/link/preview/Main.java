@@ -40,7 +40,6 @@ public class Main extends SherlockFragmentActivity {
 	private EditText editText, editTextTitlePost, editTextDescriptionPost;
 	private Button submitButton, postButton, randomButton;
 
-	private ArrayList<String> urls;
 	private Context context;
 
 	private TextCrawler textCrawler;
@@ -196,14 +195,9 @@ public class Main extends SherlockFragmentActivity {
 			@Override
 			public void onClick(View arg0) {
 
-				/** Where the urls are retrieved */
-				urls = SearchUrls.matches(editText.getText().toString());
-				if (urls.size() > 0)
-					textCrawler.makePreview(callback, urls.get(0));
+				textCrawler
+						.makePreview(callback, editText.getText().toString());
 				// , TextCrawler.NONE);
-				else
-					Toast.makeText(context, getString(R.string.no_urls),
-							Toast.LENGTH_LONG).show();
 			}
 		});
 	}
@@ -257,7 +251,7 @@ public class Main extends SherlockFragmentActivity {
 			/** Removing the loading layout */
 			linearLayout.removeAllViews();
 
-			if (isNull) {
+			if (isNull || sourceContent.getFinalUrl().equals("")) {
 				/**
 				 * Inflating the content layout into Main View LinearLayout
 				 */

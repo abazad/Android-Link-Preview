@@ -20,7 +20,6 @@ public class TextCrawler {
 
 	private final String HTTP_PROTOCOL = "http://";
 	private final String HTTPS_PROTOCOL = "https://";
-	private final String URL_REGEX = "^(https?)://?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].+)?$";
 
 	private LinkPreviewCallback callback;
 
@@ -43,6 +42,7 @@ public class TextCrawler {
 
 		private SourceContent sourceContent = new SourceContent();
 		private int imageQuantity;
+		private ArrayList<String> urls;
 
 		public GetCode(int imageQuantity) {
 			this.imageQuantity = imageQuantity;
@@ -66,11 +66,16 @@ public class TextCrawler {
 
 		@Override
 		protected Void doInBackground(String... params) {
+			// Don't forget the http:// or https://
+			urls = SearchUrls.matches(params[0]);
 
-			sourceContent
-					.setFinalUrl(unshortenUrl(findFirstUrl(extendedTrim(params[0]))));
+			if (urls.size() > 0)
+				sourceContent
+						.setFinalUrl(unshortenUrl(extendedTrim(urls.get(0))));
+			else
+				sourceContent.setFinalUrl("");
 
-			if (!sourceContent.equals("")) {
+			if (!sourceContent.getFinalUrl().equals("")) {
 				if (isImage(sourceContent.getFinalUrl())
 						&& !sourceContent.getFinalUrl().contains("dropbox")) {
 					sourceContent.setSuccess(true);
@@ -154,21 +159,6 @@ public class TextCrawler {
 			return false;
 		}
 
-	}
-
-	/** Find the first url */
-	private String findFirstUrl(String content) {
-		String url = "";
-		String[] pieces = content.split(" ");
-
-		for (String string : pieces) {
-			if (string.matches(URL_REGEX)) {
-				url = string;
-				break;
-			}
-		}
-
-		return url;
 	}
 
 	/** Gets content from a html tag */
