@@ -403,6 +403,10 @@ public class TextCrawler {
 	 * Unshortens a short url
 	 */
 	private String unshortenUrl(String shortURL) {
+		if (!shortURL.startsWith(HTTP_PROTOCOL)
+				&& !shortURL.startsWith(HTTP_PROTOCOL))
+			return "";
+
 		URLConnection urlConn = connectURL(shortURL);
 		urlConn.getHeaderFields();
 		return urlConn.getURL().toString();
