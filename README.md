@@ -16,6 +16,11 @@ Note 1 - Required Libs: [jsoup](http://jsoup.org/ "jsoup") is a smart lib to cra
 Note 2 - Not Required Libs: Two libs for a more concise and uniform layout, which are [ActionBarSherlock](http://actionbarsherlock.com/ "ActionBarSherlock") and [HoloEverywhere](https://github.com/Prototik/HoloEverywhere "HoloEverywhere").
 
 
+Apps using Android Link Preview
+=================================
+1. [Url Unshortener](https://play.google.com/store/apps/details?id=com.leocardz.url.unshortener&feature=search_result "Url Unshortener")
+2. ...
+
 
 Contact
 =================================
