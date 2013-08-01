@@ -399,7 +399,19 @@ public class TextCrawler {
 
 		URLConnection urlConn = connectURL(shortURL);
 		urlConn.getHeaderFields();
-		return urlConn.getURL().toString();
+
+		String finalResult = urlConn.getURL().toString();
+
+		urlConn = connectURL(finalResult);
+		urlConn.getHeaderFields();
+
+		shortURL = urlConn.getURL().toString();
+
+		while (!shortURL.equals(finalResult)) {
+			finalResult = unshortenUrl(finalResult);
+		}
+
+		return finalResult;
 	}
 
 	/**
