@@ -18,7 +18,7 @@ Note 2 - Not Required Libs: Two libs for a more concise and uniform layout, whic
 
 Apps using Android Link Preview
 =================================
-1. [Url Unshortener](https://play.google.com/store/apps/details?id=com.leocardz.url.unshortener&feature=search_result "Url Unshortener")
+1. [Unshorten It](https://play.google.com/store/apps/details?id=com.leocardz.url.unshortener&feature=search_result "Unshorten It")
 2. ...
 
 
