@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.leocardz.link.preview"
     android:installLocation="preferExternal"
-    android:versionCode="1"
+    android:versionCode="2"
     android:versionName="1.0" >
 
     <uses-sdk
@@ -33,6 +33,19 @@
                 <category android:name="android.intent.category.DEFAULT" />
 
                 <data android:mimeType="text/plain" />
+            </intent-filter>
+            <intent-filter>
+                <data
+                    android:host="*"
+                    android:scheme="http" />
+                <data
+                    android:host="*"
+                    android:scheme="https" />
+
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
             </intent-filter>
         </activity>
     </application>

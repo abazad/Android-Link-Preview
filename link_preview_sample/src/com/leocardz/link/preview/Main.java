@@ -1,6 +1,7 @@
 package com.leocardz.link.preview;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import android.app.Activity;
@@ -72,8 +73,30 @@ public class Main extends SherlockFragmentActivity {
 		if (getIntent().getExtras() != null) {
 			String shareVia = (String) getIntent().getExtras().get(
 					Intent.EXTRA_TEXT);
-			if (shareVia != null)
+			if (shareVia != null) {
 				editText.setText(shareVia);
+			}
+		}
+		if (getIntent().getAction() == Intent.ACTION_VIEW) {
+			Uri data = getIntent().getData();
+			String scheme = data.getScheme();
+			String host = data.getHost();
+			List<String> params = data.getPathSegments();
+			String builded = scheme + "://" + host + "/";
+
+			for (String string : params) {
+				builded += string + "/";
+			}
+
+			if (data.getQuery() != null && !data.getQuery().equals("")) {
+				builded = builded.substring(0, builded.length() - 1);
+				builded += "?" + data.getQuery();
+			}
+
+			System.out.println(builded);
+			
+			editText.setText(builded);
+
 		}
 		/** --- */
 
